@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="KioskVerwaltung.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Filename" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sbb_agentur_kiosk.xml</Value>
+    </Setting>
+    <Setting Name="SettingFilename" Type="System.String" Scope="User">
+      <Value Profile="(Default)">settings.xml</Value>
+    </Setting>
+    <Setting Name="ClearBasketBarcode" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>
