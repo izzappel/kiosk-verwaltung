@@ -1,0 +1,292 @@
+﻿<UserControl x:Class="KioskVerwaltung.SaleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:KioskVerwaltung.Converters"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" PreviewKeyDown="ScanPreviewKeyDown" PreviewTextInput="Scan" Focusable="True">
+    <UserControl.Resources>
+        <converters:IsPrivateToVisibilityConverter x:Key="isPrivateToVisibilityConverter"/>
+        <converters:IsPublicToVisibilityConverter x:Key="isPublicToVisibilityConverter"/>
+        <converters:IsPaidByCreditCardToVisibilityConverter x:Key="isPaidByCreditCardToVisibilityConverter"/>
+        <converters:IsPaidByCashToVisibilityConverter x:Key="isPaidByCashToVisibilityConverter"/>
+        <converters:SaleProductToColorConverter x:Key="saleProductToColorConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <WrapPanel>
+            <TextBlock Text="Verkauf vom "/>
+            <TextBlock Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat=dd.MM.yyyy}" />
+        </WrapPanel>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="15"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid  HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Text="Barcode:  " HorizontalAlignment="Left" Width="80" />
+                <TextBox x:Name="BarcodeTextBox" PreviewKeyDown="ManualPreviewKeyDown" Height="35" HorizontalAlignment="Stretch" Grid.Column="1" />
+                <Button Width="40" Height="40" Grid.Column="2" HorizontalAlignment="Left" ToolTip="Produkt beim Warenkorb hinzufügen" Click="AddProductToBasket" Template="{StaticResource ResourceKey=ImageTransparentButton}">
+                    <Image Source="/KioskVerwaltung;component/Icons/add.png" Height="35" />
+                </Button>
+            </Grid>
+            <WrapPanel Grid.Row="1">
+                <TextBlock Text="Warenkorb mit "/>
+                <TextBlock Text="{Binding ShoppingBasket.Count}" FontWeight="Bold"/>
+                <TextBlock Text=" Produkten:" FontWeight="Bold"/>
+            </WrapPanel>
+            <TextBlock Text="Verkauf:" Grid.Column="2" Grid.Row="1"/>
+
+            <StackPanel Grid.Row="2" Grid.RowSpan="2">
+
+                <ListBox ItemsSource="{Binding BasketItems}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                         ItemContainerStyle="{StaticResource ResourceKey=SelectedListBoxItem}" x:Name="InvokersListBox"
+                         MinHeight="65" VerticalAlignment="Top" MaxHeight="{Binding ElementName=SaleListBox, Path=ActualHeight}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border HorizontalAlignment="Stretch">
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="30" />
+                                    </Grid.ColumnDefinitions>
+                                    <WrapPanel VerticalAlignment="Center" >
+                                        <TextBlock Text="{Binding SaleProduct.Name}">
+                                            <TextBlock.Foreground>
+                                                <MultiBinding Converter="{StaticResource saleProductToColorConverter}">
+                                                    <Binding Path="SaleProduct"/>
+                                                    <Binding Path="SaleProduct.IsPrivate"/>
+                                                    <Binding Path="SaleProduct.IsPaidByCreditCard"/>
+                                                </MultiBinding>
+                                            </TextBlock.Foreground>
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding SaleProduct.Price, StringFormat='(\{0:0.00\} CHF)'}" Margin="10,0,0,0">
+                                            <TextBlock.Foreground>
+                                                <MultiBinding Converter="{StaticResource saleProductToColorConverter}">
+                                                    <Binding Path="SaleProduct"/>
+                                                    <Binding Path="SaleProduct.IsPrivate"/>
+                                                    <Binding Path="SaleProduct.IsPaidByCreditCard"/>
+                                                </MultiBinding>
+                                            </TextBlock.Foreground>
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding SaleProduct.Deduction}" Margin="10,0,0,0" Foreground="Red"/>
+                                    </WrapPanel>
+                                    <TextBlock Text="{Binding SaleProduct.SellPrice, StringFormat='\{0:0.00\} CHF'}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,5,0" FontWeight="Bold">
+                                        <TextBlock.Foreground>
+                                            <MultiBinding Converter="{StaticResource saleProductToColorConverter}">
+                                                <Binding Path="SaleProduct"/>
+                                                <Binding Path="SaleProduct.IsPrivate"/>
+                                                <Binding Path="SaleProduct.IsPaidByCreditCard"/>
+                                            </MultiBinding>
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+
+                                    <Image Grid.Column="2" Width="25" Source="/KioskVerwaltung;component/Icons/creditcard.png" ToolTip="Kreditkarte"
+                                                   Visibility="{Binding Path=SaleProduct.IsPaidByCreditCard, Mode=OneWay, Converter={StaticResource isPaidByCashToVisibilityConverter}}"/>
+
+                                    <Image Grid.Column="2" Width="25" Source="/KioskVerwaltung;component/Icons/private.png" ToolTip="Privatbezug"
+                                                   Visibility="{Binding Path=SaleProduct.IsPrivate, Mode=OneWay, Converter={StaticResource isPublicToVisibilityConverter}}"/>
+                                    <Button Width="30" Height="30" HorizontalAlignment="Left" ToolTip="Produkt entfernen" CommandParameter="{Binding}" Click="RemoveSaleProduct"
+                                                        Grid.Column="3" Template="{StaticResource ResourceKey=ImageGradientButton}">
+                                        <Image Source="/KioskVerwaltung;component/Icons/remove.png" Height="25" />
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <WrapPanel VerticalAlignment="Center" >
+                        <TextBlock Text="Total: " FontWeight="Bold" FontSize="20" />
+                        <TextBlock Text="{Binding BasketTotal, StringFormat=' {0:0.00} CHF'}" FontWeight="Bold" FontSize="20"   />
+                    </WrapPanel>
+                    <WrapPanel Grid.Column="1" HorizontalAlignment="Right">
+                        <Button Width="40" Height="40" HorizontalAlignment="Left" ToolTip="Kreditkarte (Linke Pfeiltaste)" Click="PayByCreditCardCash"
+                                            Visibility="{Binding Path=IsBasketPaidByCreditCard, Mode=OneWay, Converter={StaticResource isPaidByCreditCardToVisibilityConverter}}" 
+                                            Template="{StaticResource ResourceKey=ImageGradientButton}">
+                            <Image Source="/KioskVerwaltung;component/Icons/creditcard.png" Height="35" />
+                        </Button>
+                        <Button Width="40" Height="40" HorizontalAlignment="Left" ToolTip="Bargeld (Linke Pfeiltaste)" Click="PayByCreditCardCash"
+                                            Visibility="{Binding Path=IsBasketPaidByCreditCard, Mode=OneWay, Converter={StaticResource isPaidByCashToVisibilityConverter}}"
+                                            Template="{StaticResource ResourceKey=ImageGradientButton}">
+                            <Image Source="/KioskVerwaltung;component/Icons/cash.png" Height="35" />
+                        </Button>
+                        <Button Width="40" Height="40"  HorizontalAlignment="Left" ToolTip="Privatbezug (Rechte Pfeiltaste)" Click="PrivatePublicSale"
+                                            Visibility="{Binding Path=IsBasketPrivate, Mode=OneWay, Converter={StaticResource isPrivateToVisibilityConverter}}"
+                                            Template="{StaticResource ResourceKey=ImageGradientButton}">
+                            <Image Source="/KioskVerwaltung;component/Icons/private.png" Height="35" />
+                        </Button>
+                        <Button Width="40" Height="40"  HorizontalAlignment="Left" ToolTip="Normaler Verkauf (Rechte Pfeiltaste)" Click="PrivatePublicSale"
+                                            Visibility="{Binding Path=IsBasketPrivate, Mode=OneWay, Converter={StaticResource isPublicToVisibilityConverter}}"
+                                            Template="{StaticResource ResourceKey=ImageGradientButton}">
+                            <Image Source="/KioskVerwaltung;component/Icons/public.png" Height="35" />
+                        </Button>
+                    </WrapPanel>
+                </Grid>
+            </StackPanel>
+
+            <Button Width="40" Height="40"  HorizontalAlignment="Center" ToolTip="Warenkorb leeren (Enter)" Click="ClearBasket" 
+                                        Template="{StaticResource ResourceKey=ImageTransparentButton}" Grid.Column="1" Grid.Row="2">
+                <Image Source="/KioskVerwaltung;component/Icons/clear_basket.png" Height="35" />
+            </Button>
+
+            <ListBox ItemsSource="{Binding SaleToday.SaleProducts}" HorizontalContentAlignment="Stretch" Grid.Column="2" Grid.Row="2"
+                                 ItemContainerStyle="{StaticResource ResourceKey=SelectedListBoxItem}" x:Name="SaleListBox" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border HorizontalAlignment="Stretch">
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="30" />
+                                </Grid.ColumnDefinitions>
+                                <WrapPanel VerticalAlignment="Center" >
+                                    <TextBlock Text="{Binding Name}">
+                                        <TextBlock.Foreground>
+                                            <MultiBinding Converter="{StaticResource saleProductToColorConverter}">
+                                                <Binding />
+                                                <Binding Path="IsPrivate"/>
+                                                <Binding Path="IsPaidByCreditCard"/>
+                                            </MultiBinding>
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding Price, StringFormat='(\{0:0.00\} CHF)'}" Margin="10,0,0,0">
+                                            <TextBlock.Foreground>
+                                                <MultiBinding Converter="{StaticResource saleProductToColorConverter}">
+                                                    <Binding Path="SaleProduct"/>
+                                                    <Binding Path="SaleProduct.IsPrivate"/>
+                                                    <Binding Path="SaleProduct.IsPaidByCreditCard"/>
+                                                </MultiBinding>
+                                            </TextBlock.Foreground>
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding Deduction}" Margin="10,0,0,0" Foreground="Red"/>
+                                </WrapPanel>
+                                <TextBlock Text="{Binding SellPrice, StringFormat='\{0:0.00\} CHF'}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" >
+                                        <TextBlock.Foreground>
+                                            <MultiBinding Converter="{StaticResource saleProductToColorConverter}">
+                                                <Binding />
+                                                <Binding Path="IsPrivate"/>
+                                                <Binding Path="IsPaidByCreditCard"/>
+                                            </MultiBinding>
+                                        </TextBlock.Foreground>
+                                </TextBlock>
+
+
+                                <Image Grid.Column="2" Width="25" Source="/KioskVerwaltung;component/Icons/creditcard.png" ToolTip="Kreditkarte"
+                                                   Visibility="{Binding Path=IsPaidByCreditCard, Mode=OneWay, Converter={StaticResource isPaidByCashToVisibilityConverter}}"/>
+
+                                <Image Grid.Column="2" Width="25" Source="/KioskVerwaltung;component/Icons/private.png" ToolTip="Privatbezug"
+                                                   Visibility="{Binding Path=IsPrivate, Mode=OneWay, Converter={StaticResource isPublicToVisibilityConverter}}"/>
+                            </Grid>
+                            <Border.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="auf Privatbezug ändern" Click="SetPrivateSale" CommandParameter="{Binding}"
+                                            Visibility="{Binding Path=IsPrivate, Mode=OneWay, Converter={StaticResource isPrivateToVisibilityConverter}}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/KioskVerwaltung;component/Icons/private.png" Height="25" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="auf normalen Verkauf ändern" Click="SetPublicSale" CommandParameter="{Binding}"
+                                            Visibility="{Binding Path=IsPrivate, Mode=OneWay, Converter={StaticResource isPublicToVisibilityConverter}}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/KioskVerwaltung;component/Icons/public.png" Height="25" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="auf Kreditkarte ändern" Click="SetCreditCardSale" CommandParameter="{Binding}"
+                                            Visibility="{Binding Path=IsPaidByCreditCard, Mode=OneWay, Converter={StaticResource isPaidByCreditCardToVisibilityConverter}}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/KioskVerwaltung;component/Icons/creditcard.png" Height="25" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="auf Bargeld ändern" Click="SetCashSale" CommandParameter="{Binding}"
+                                            Visibility="{Binding Path=IsPaidByCreditCard, Mode=OneWay, Converter={StaticResource isPaidByCashToVisibilityConverter}}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/KioskVerwaltung;component/Icons/cash.png" Height="25" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Produkt entfernen" Click="DeleteSaleProduct" CommandParameter="{Binding}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/KioskVerwaltung;component/Icons/delete.png" Height="25" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Border.ContextMenu>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+        </Grid>
+        <Separator Grid.Row="2"/>
+        <Grid Grid.Row="4" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions >
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="180" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="180" />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Privatbezug: " Grid.Row="0" Grid.Column="0"/>
+            <TextBlock Text="{Binding Mode=OneWay, Path=SaleToday.TotalPrivate, StringFormat='\{0:0.00\} CHF'}" Grid.Row="0" Grid.Column="1"/>
+
+            <TextBlock Text="Bargeld: " Grid.Column="2"/>
+            <TextBlock Text="{Binding SaleToday.TotalCash, Mode=OneWay, StringFormat='\{0:0.00\} CHF'}" Grid.Column="3"
+                                   HorizontalAlignment="Right"/>
+
+            <TextBlock Text="Kreditkarte: " Grid.Row="1" Grid.Column="2"/>
+            <TextBlock Text="{Binding SaleToday.TotalCreditCard, Mode=OneWay, StringFormat='\{0:0.00\} CHF'}" Grid.Row="1" 
+                                   Grid.Column="3" HorizontalAlignment="Right"/>
+
+            <Separator Grid.Row="2" Grid.Column="3" Width="80" HorizontalAlignment="Right" Background="Black"/>
+
+            <TextBlock Text="Total Heute: " Grid.Row="3" Grid.Column="2"/>
+            <TextBlock Text="{Binding SaleToday.Total, Mode=OneWay, StringFormat='\{0:0.00\} CHF'}" Grid.Row="3" Grid.Column="3"
+                                   HorizontalAlignment="Right"/>
+
+            <Separator Grid.Row="4" Grid.Column="3" Width="80" HorizontalAlignment="Right" Background="Black"/>
+            <Separator Grid.Row="5" Grid.Column="3" Width="80" HorizontalAlignment="Right" Background="Black"/>
+
+            <Button Grid.Row="3" Grid.Column="4" Template="{StaticResource ImageGradientButton}" Height="30" Width="30"
+                                ToolTip="Tagesabrechnung drucken" Click="PrintDailyAccounting">
+                <Image Width="25" Source="/KioskVerwaltung;component/Icons/printer.png" />
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,88 @@
+﻿<Window x:Class="KioskVerwaltung.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:KioskVerwaltung" Closing="Window_Closing"
+        Title="Kiosk Verwaltung" Height="500" Width="870" Icon="/KioskVerwaltung;component/Icons/kiosk_verwaltung.png" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        
+    </Window.Resources>    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>    
+        <Menu>
+            <MenuItem Header="Start" >
+                <MenuItem Header="Produktdatei öffnen..." Click="OpenKioskFile">
+                    <MenuItem.Icon>
+                        <Image Source="/KioskVerwaltung;component/Icons/open_project.png" Height="20" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Produktdatei speichern unter..." Click="SaveKioskFile">
+                    <MenuItem.Icon>
+                        <Image Source="/KioskVerwaltung;component/Icons/save.png" Height="20" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Beenden" Click="Close"/>
+            </MenuItem>
+        </Menu>
+        <TabControl Grid.Row="1" SelectionChanged="TabControl_SelectionChanged" x:Name="MainTabControl">
+            <!--Verkauf-->
+            <TabItem x:Name="SaleTabItem">
+                <TabItem.Header>
+                    <WrapPanel>
+                        <Image Source="/KioskVerwaltung;component/Icons/verkauf.png" Height="25"/>
+                        <TextBlock Text="Verkauf" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                    </WrapPanel>
+                </TabItem.Header>
+                <local:SaleView x:Name="SaleView"/>
+            </TabItem>
+            
+            <!--Start-->
+            <TabItem >
+                <TabItem.Header>
+                    <WrapPanel>
+                        <Image Source="/KioskVerwaltung;component/Icons/start.png" Height="25"/>
+                        <TextBlock Text="Beobachten" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                    </WrapPanel>
+                </TabItem.Header>
+                <local:StartView />
+            </TabItem>
+            
+            <!--Vorrat-->
+            <TabItem>
+                <TabItem.Header>
+                    <WrapPanel>
+                        <Image Source="/KioskVerwaltung;component/Icons/vorrat.png" Height="25"/>
+                        <TextBlock Text="Vorrat" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                    </WrapPanel>
+                </TabItem.Header>
+                <local:StockView />
+            </TabItem>
+            
+            
+            <!--Statistik-->
+            <TabItem>
+                <TabItem.Header>
+                    <WrapPanel>
+                        <Image Source="/KioskVerwaltung;component/Icons/statistic.png" Height="25" />
+                        <TextBlock Text="Statistik" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                    </WrapPanel>
+                </TabItem.Header>
+                <local:StatisticView />
+            </TabItem>
+            
+            <!--Einstellungen-->
+            <TabItem>
+                <TabItem.Header>
+                    <WrapPanel>
+                        <Image Source="/KioskVerwaltung;component/Icons/settings.png" Height="25" />
+                        <TextBlock Text="Einstellungen" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                    </WrapPanel>
+                </TabItem.Header>
+                <local:SettingsView />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
