@@ -1,0 +1,10 @@
+﻿<FlowDocument x:Class="KioskVerwaltung.Printing.StartPrintFlowDocument"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        ColumnWidth="400"
+        FontSize="14"
+        FontFamily="Segoe UI">
+    <Section x:Name="Content">
+
+    </Section>
+</FlowDocument>
