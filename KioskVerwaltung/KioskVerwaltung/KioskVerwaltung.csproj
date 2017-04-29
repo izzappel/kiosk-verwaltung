@@ -1,0 +1,494 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{95497D01-FD89-48EB-A081-A35E1D9A896C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KioskVerwaltung</RootNamespace>
+    <AssemblyName>KioskVerwaltung</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>kiosk_verwaltung.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ReachFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\UnBoolToVisibilityConverter.cs" />
+    <Compile Include="DataAccess\KioskDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KioskDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\SaleDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaleDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Sale\SalePrintFlowDocument.xaml.cs">
+      <DependentUpon>SalePrintFlowDocument.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Sale\SaleViewLastPrintPage.xaml.cs">
+      <DependentUpon>SaleViewLastPrintPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Settings\BarcodePrintPaginator.cs" />
+    <Compile Include="Printing\Settings\BarcodeSettingsPage.xaml.cs">
+      <DependentUpon>BarcodeSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Settings\BarcodeSettingsPageViewModel.cs" />
+    <Compile Include="Printing\Settings\SettingsPrintFlowDocument.xaml.cs">
+      <DependentUpon>SettingsPrintFlowDocument.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Start\StartPrintFlowDocument.xaml.cs">
+      <DependentUpon>StartPrintFlowDocument.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Start\StartPrintPaginator.cs" />
+    <Compile Include="Printing\Start\StartViewPage.xaml.cs">
+      <DependentUpon>StartViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Statistic\DayPrintFlowDocument.xaml.cs">
+      <DependentUpon>DayPrintFlowDocument.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Statistic\DayPrintPaginator.cs" />
+    <Compile Include="Printing\Statistic\DayViewLastPrintPage.xaml.cs">
+      <DependentUpon>DayViewLastPrintPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Statistic\DayViewPrintPage.xaml.cs">
+      <DependentUpon>DayViewPrintPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Statistic\MonthPrintFlowDocument.xaml.cs">
+      <DependentUpon>MonthPrintFlowDocument.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Statistic\MonthPrintPaginator.cs" />
+    <Compile Include="Printing\Statistic\MonthViewLastPrintPage.xaml.cs">
+      <DependentUpon>MonthViewLastPrintPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Statistic\MonthViewPrintPage.xaml.cs">
+      <DependentUpon>MonthViewPrintPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Sale\SalePrintPaginator.cs" />
+    <Compile Include="Printing\Sale\SaleViewPrintPage.xaml.cs">
+      <DependentUpon>SaleViewPrintPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Stock\StockItem.xaml.cs">
+      <DependentUpon>StockItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Stock\StockPageViewModel.cs" />
+    <Compile Include="Printing\Stock\StockPrintPaginator.cs" />
+    <Compile Include="Printing\Stock\StockViewPage.xaml.cs">
+      <DependentUpon>StockViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Printing\Stock\StockPrintFlowDocument.xaml.cs">
+      <DependentUpon>StockPrintFlowDocument.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\AddBarcodeSettingViewModel.cs" />
+    <Compile Include="ViewModels\BasketItem.cs" />
+    <Compile Include="ViewModels\Statistic\DayStatisticViewModel.cs" />
+    <Compile Include="ViewModels\Statistic\MonthStatisticViewModel.cs" />
+    <Compile Include="ViewModels\Statistic\SaleProductTotal.cs" />
+    <Compile Include="Views\Settings\AddBarcodeSettingWindow.xaml.cs">
+      <DependentUpon>AddBarcodeSettingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Barcode.xaml.cs">
+      <DependentUpon>Barcode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BusinessObjects\BarcodeSetting.cs" />
+    <Compile Include="Controls\Code39.cs" />
+    <Compile Include="Converters\IsFixValueToStringConverter.cs" />
+    <Compile Include="DataAccess\SettingsDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SettingsDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Statistic\DayStatisticView.xaml.cs">
+      <DependentUpon>DayStatisticView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\EditBarcodeSettingsViewModel.cs" />
+    <Compile Include="Views\Settings\EditBarcodeSettingWindow.xaml.cs">
+      <DependentUpon>EditBarcodeSettingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Statistic\MonthStatisticView.xaml.cs">
+      <DependentUpon>MonthStatisticView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Observer.cs" />
+    <Compile Include="Converters\SaleProductToColorConverter.cs" />
+    <Compile Include="Views\SaleView.xaml.cs">
+      <DependentUpon>SaleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\SaleViewModel.cs" />
+    <Compile Include="Views\Settings\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Views\StartView.xaml.cs">
+      <DependentUpon>StartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\StartViewModel.cs" />
+    <Compile Include="Views\Statistic\StatisticView.xaml.cs">
+      <DependentUpon>StatisticView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Statistic\StatisticViewModel.cs" />
+    <Compile Include="Views\Stock\StockView.xaml.cs">
+      <DependentUpon>StockView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Stock\StockViewModel.cs" />
+    <Compile Include="Views\Statistic\WeekStatisticView.xaml.cs">
+      <DependentUpon>WeekStatisticView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Printing\Sale\SalePrintFlowDocument.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Sale\SaleViewLastPrintPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Settings\BarcodeSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Settings\SettingsPrintFlowDocument.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Start\StartPrintFlowDocument.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Start\StartViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Statistic\DayPrintFlowDocument.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Statistic\DayViewLastPrintPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Statistic\DayViewPrintPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Statistic\MonthPrintFlowDocument.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Statistic\MonthViewLastPrintPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Statistic\MonthViewPrintPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Sale\SaleViewPrintPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Stock\StockItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Stock\StockViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\Stock\StockPrintFlowDocument.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Settings\AddBarcodeSettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Stock\AddConsignmentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Barcode.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Statistic\DayStatisticView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Settings\EditBarcodeSettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Stock\EditConsignmentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Stock\EditProductWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="ViewModels\Stock\AddConsignmentViewModel.cs" />
+    <Compile Include="Views\Stock\AddConsignmentWindow.xaml.cs">
+      <DependentUpon>AddConsignmentWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessObjects\Consignment.cs" />
+    <Compile Include="BusinessObjects\Product.cs" />
+    <Compile Include="BusinessObjects\Sale.cs" />
+    <Compile Include="BusinessObjects\SaleProduct.cs" />
+    <Compile Include="DataAccess\DataAccess.cs" />
+    <Compile Include="Views\Stock\EditConsignmentWindow.xaml.cs">
+      <DependentUpon>EditConsignmentWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Stock\EditProductViewModel.cs" />
+    <Compile Include="Views\Stock\EditProductWindow.xaml.cs">
+      <DependentUpon>EditProductWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\IsPaidByCashToVisibilityConverter.cs" />
+    <Compile Include="Converters\IsPaidByCreditCardToVisibilityConverter.cs" />
+    <Compile Include="Converters\IsPrivateToVisibilityConverter.cs" />
+    <Compile Include="Converters\IsPublicToVisibilityConverter.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Views\Statistic\MonthStatisticView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Stock\NewProductWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SaleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Settings\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Statistic\StatisticView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Stock\StockView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Statistic\WeekStatisticView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ViewModels\Stock\NewProductViewModel.cs" />
+    <Compile Include="Views\Stock\NewProductWindow.xaml.cs">
+      <DependentUpon>NewProductWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="DataAccess\KioskDataSet.xsc">
+      <DependentUpon>KioskDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataAccess\KioskDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>KioskDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataAccess\KioskDataSet.xss">
+      <DependentUpon>KioskDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataAccess\SaleDataSet.xsc">
+      <DependentUpon>SaleDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataAccess\SaleDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SaleDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataAccess\SaleDataSet.xss">
+      <DependentUpon>SaleDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataAccess\SettingsDataSet.xsc">
+      <DependentUpon>SettingsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataAccess\SettingsDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SettingsDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataAccess\SettingsDataSet.xss">
+      <DependentUpon>SettingsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\add_consignment.png" />
+    <Resource Include="Icons\add_product.png" />
+    <Resource Include="Icons\delete_consignment.png" />
+    <Resource Include="Icons\delete_product.png" />
+    <Resource Include="Icons\edit_price.png" />
+    <Resource Include="Icons\edit_product.png" />
+    <Resource Include="Icons\show.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\open_project.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\kiosk_verwaltung.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\start.png" />
+    <Resource Include="Icons\verkauf.png" />
+    <Resource Include="Icons\vorrat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\edit_consignment.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\statistic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\creditcard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\private.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\public.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\cash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\clear_basket.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\printer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\calendar_day.png" />
+    <Resource Include="Icons\calendar_month.png" />
+    <Resource Include="Icons\calendar_week.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="kiosk_verwaltung.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\printer_selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\select_all.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\free.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
