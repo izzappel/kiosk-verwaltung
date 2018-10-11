@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("züger solutions")]
 [assembly: AssemblyProduct("KioskVerwaltung")]
-[assembly: AssemblyCopyright("Copyright © züger solutions 2015")]
+[assembly: AssemblyCopyright("Copyright © züger solutions 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Windows;
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.5.0.0")]
-[assembly: AssemblyFileVersion("3.5.0.0")]
+[assembly: AssemblyVersion("3.6.0.0")]
+[assembly: AssemblyFileVersion("3.6.0.0")]
