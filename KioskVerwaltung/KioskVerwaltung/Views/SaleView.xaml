@@ -11,8 +11,8 @@
         <converters:IsPublicToVisibilityConverter x:Key="isPublicToVisibilityConverter"/>
         <converters:IsPaidByCreditCardToVisibilityConverter x:Key="isPaidByCreditCardToVisibilityConverter"/>
         <converters:IsPaidByCashToVisibilityConverter x:Key="isPaidByCashToVisibilityConverter"/>
-        <converters:SaleProductToColorConverter x:Key="saleProductToColorConverter"/>
-    </UserControl.Resources>
+		<converters:SaleProductToColorConverter x:Key="saleProductToColorConverter"/>
+	</UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -78,8 +78,9 @@
                                                 <MultiBinding Converter="{StaticResource saleProductToColorConverter}">
                                                     <Binding Path="SaleProduct"/>
                                                     <Binding Path="SaleProduct.IsPrivate"/>
-                                                    <Binding Path="SaleProduct.IsPaidByCreditCard"/>
-                                                </MultiBinding>
+													<Binding Path="SaleProduct.IsPaidByCreditCard"/>
+													<Binding Path="SaleProduct.IsForGuest"/>
+												</MultiBinding>
                                             </TextBlock.Foreground>
                                         </TextBlock>
                                         <TextBlock Text="{Binding SaleProduct.Price, StringFormat='(\{0:0.00\} CHF)'}" Margin="10,0,0,0">
@@ -87,8 +88,9 @@
                                                 <MultiBinding Converter="{StaticResource saleProductToColorConverter}">
                                                     <Binding Path="SaleProduct"/>
                                                     <Binding Path="SaleProduct.IsPrivate"/>
-                                                    <Binding Path="SaleProduct.IsPaidByCreditCard"/>
-                                                </MultiBinding>
+													<Binding Path="SaleProduct.IsPaidByCreditCard"/>
+													<Binding Path="SaleProduct.IsForGuest"/>
+												</MultiBinding>
                                             </TextBlock.Foreground>
                                         </TextBlock>
                                         <TextBlock Text="{Binding SaleProduct.Deduction}" Margin="10,0,0,0" Foreground="Red"/>
@@ -98,8 +100,9 @@
                                             <MultiBinding Converter="{StaticResource saleProductToColorConverter}">
                                                 <Binding Path="SaleProduct"/>
                                                 <Binding Path="SaleProduct.IsPrivate"/>
-                                                <Binding Path="SaleProduct.IsPaidByCreditCard"/>
-                                            </MultiBinding>
+												<Binding Path="SaleProduct.IsPaidByCreditCard"/>
+												<Binding Path="SaleProduct.IsForGuest"/>
+											</MultiBinding>
                                         </TextBlock.Foreground>
                                     </TextBlock>
 
@@ -108,7 +111,11 @@
 
                                     <Image Grid.Column="2" Width="25" Source="/KioskVerwaltung;component/Icons/private.png" ToolTip="Privatbezug"
                                                    Visibility="{Binding Path=SaleProduct.IsPrivate, Mode=OneWay, Converter={StaticResource isPublicToVisibilityConverter}}"/>
-                                    <Button Width="30" Height="30" HorizontalAlignment="Left" ToolTip="Produkt entfernen" CommandParameter="{Binding}" Click="RemoveSaleProduct"
+									
+									<Image Grid.Column="2" Width="25" Source="/KioskVerwaltung;component/Icons/for_guest.png" ToolTip="Für Gäste"
+                                                   Visibility="{Binding Path=SaleProduct.IsForGuest, Mode=OneWay, Converter={StaticResource isPublicToVisibilityConverter}}"/>
+									
+									<Button Width="30" Height="30" HorizontalAlignment="Left" ToolTip="Produkt entfernen" CommandParameter="{Binding}" Click="RemoveSaleProduct"
                                                         Grid.Column="3" Template="{StaticResource ResourceKey=ImageGradientButton}">
                                         <Image Source="/KioskVerwaltung;component/Icons/remove.png" Height="25" />
                                     </Button>
@@ -147,8 +154,18 @@
                                             Visibility="{Binding Path=IsBasketPrivate, Mode=OneWay, Converter={StaticResource isPublicToVisibilityConverter}}"
                                             Template="{StaticResource ResourceKey=ImageGradientButton}">
                             <Image Source="/KioskVerwaltung;component/Icons/public.png" Height="35" />
-                        </Button>
-                    </WrapPanel>
+						</Button>
+						<Button Width="40" Height="40"  HorizontalAlignment="Left" ToolTip="Für Gäste" Click="ForGuestPublicSale"
+                                            Visibility="{Binding Path=IsBasketForGuest, Mode=OneWay, Converter={StaticResource isPrivateToVisibilityConverter}}"
+                                            Template="{StaticResource ResourceKey=ImageGradientButton}">
+							<Image Source="/KioskVerwaltung;component/Icons/for_guest.png" Height="35" />
+						</Button>
+						<Button Width="40" Height="40"  HorizontalAlignment="Left" ToolTip="Normaler Verkauf" Click="ForGuestPublicSale"
+                                            Visibility="{Binding Path=IsBasketForGuest, Mode=OneWay, Converter={StaticResource isPublicToVisibilityConverter}}"
+                                            Template="{StaticResource ResourceKey=ImageGradientButton}">
+							<Image Source="/KioskVerwaltung;component/Icons/public.png" Height="35" />
+						</Button>
+					</WrapPanel>
                 </Grid>
             </StackPanel>
 
@@ -174,17 +191,19 @@
                                             <MultiBinding Converter="{StaticResource saleProductToColorConverter}">
                                                 <Binding />
                                                 <Binding Path="IsPrivate"/>
-                                                <Binding Path="IsPaidByCreditCard"/>
-                                            </MultiBinding>
+												<Binding Path="IsPaidByCreditCard"/>
+												<Binding Path="IsForGuest"/>
+											</MultiBinding>
                                         </TextBlock.Foreground>
                                     </TextBlock>
                                     <TextBlock Text="{Binding Price, StringFormat='(\{0:0.00\} CHF)'}" Margin="10,0,0,0">
                                             <TextBlock.Foreground>
                                                 <MultiBinding Converter="{StaticResource saleProductToColorConverter}">
-                                                    <Binding Path="SaleProduct"/>
-                                                    <Binding Path="SaleProduct.IsPrivate"/>
-                                                    <Binding Path="SaleProduct.IsPaidByCreditCard"/>
-                                                </MultiBinding>
+                                                    <Binding Path=""/>
+                                                    <Binding Path="IsPrivate"/>
+													<Binding Path="IsPaidByCreditCard"/>
+													<Binding Path="IsForGuest"/>
+												</MultiBinding>
                                             </TextBlock.Foreground>
                                     </TextBlock>
                                     <TextBlock Text="{Binding Deduction}" Margin="10,0,0,0" Foreground="Red"/>
@@ -194,8 +213,9 @@
                                             <MultiBinding Converter="{StaticResource saleProductToColorConverter}">
                                                 <Binding />
                                                 <Binding Path="IsPrivate"/>
-                                                <Binding Path="IsPaidByCreditCard"/>
-                                            </MultiBinding>
+												<Binding Path="IsPaidByCreditCard"/>
+												<Binding Path="IsForGuest"/>
+											</MultiBinding>
                                         </TextBlock.Foreground>
                                 </TextBlock>
 
@@ -205,7 +225,10 @@
 
                                 <Image Grid.Column="2" Width="25" Source="/KioskVerwaltung;component/Icons/private.png" ToolTip="Privatbezug"
                                                    Visibility="{Binding Path=IsPrivate, Mode=OneWay, Converter={StaticResource isPublicToVisibilityConverter}}"/>
-                            </Grid>
+								
+								<Image Grid.Column="2" Width="25" Source="/KioskVerwaltung;component/Icons/for_guest.png" ToolTip="Für Gäste"
+                                                   Visibility="{Binding Path=IsForGuest, Mode=OneWay, Converter={StaticResource isPublicToVisibilityConverter}}"/>
+							</Grid>
                             <Border.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="auf Privatbezug ändern" Click="SetPrivateSale" CommandParameter="{Binding}"
@@ -213,10 +236,22 @@
                                         <MenuItem.Icon>
                                             <Image Source="/KioskVerwaltung;component/Icons/private.png" Height="25" />
                                         </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Header="auf normalen Verkauf ändern" Click="SetPublicSale" CommandParameter="{Binding}"
+									</MenuItem>
+									<MenuItem Header="auf normalen Verkauf ändern" Click="SetPublicSale" CommandParameter="{Binding}"
                                             Visibility="{Binding Path=IsPrivate, Mode=OneWay, Converter={StaticResource isPublicToVisibilityConverter}}">
-                                        <MenuItem.Icon>
+										<MenuItem.Icon>
+											<Image Source="/KioskVerwaltung;component/Icons/public.png" Height="25" />
+										</MenuItem.Icon>
+									</MenuItem>
+									<MenuItem Header="auf Gäste-Ausgabe ändern" Click="SetGuestSale" CommandParameter="{Binding}"
+                                            Visibility="{Binding Path=IsForGuest, Mode=OneWay, Converter={StaticResource isPrivateToVisibilityConverter}}">
+										<MenuItem.Icon>
+											<Image Source="/KioskVerwaltung;component/Icons/for_guest.png" Height="25" />
+										</MenuItem.Icon>
+									</MenuItem>
+									<MenuItem Header="auf normalen Verkauf ändern" Click="SetSellerSale" CommandParameter="{Binding}"
+                                            Visibility="{Binding Path=IsForGuest, Mode=OneWay, Converter={StaticResource isPublicToVisibilityConverter}}">
+										<MenuItem.Icon>
                                             <Image Source="/KioskVerwaltung;component/Icons/public.png" Height="25" />
                                         </MenuItem.Icon>
                                     </MenuItem>
@@ -270,7 +305,11 @@
             <TextBlock Text="{Binding SaleToday.TotalCash, Mode=OneWay, StringFormat='\{0:0.00\} CHF'}" Grid.Column="3"
                                    HorizontalAlignment="Right"/>
 
-            <TextBlock Text="Kreditkarte: " Grid.Row="1" Grid.Column="2"/>
+
+			<TextBlock Text="Für Gäste: " Grid.Row="1" Grid.Column="0"/>
+			<TextBlock Text="{Binding Mode=OneWay, Path=SaleToday.TotalForGuest, StringFormat='\{0:0.00\} CHF'}" Grid.Row="1" Grid.Column="1"/>
+			
+			<TextBlock Text="Kreditkarte: " Grid.Row="1" Grid.Column="2"/>
             <TextBlock Text="{Binding SaleToday.TotalCreditCard, Mode=OneWay, StringFormat='\{0:0.00\} CHF'}" Grid.Row="1" 
                                    Grid.Column="3" HorizontalAlignment="Right"/>
 

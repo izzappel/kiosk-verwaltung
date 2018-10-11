@@ -48,8 +48,12 @@ namespace KioskVerwaltung.BusinessObjects
         public double TotalPrivate
         {
             get { return GetTotalPrivate(); }
-        }
-        public double Total
+		}
+		public double TotalForGuest
+		{
+			get { return GetTotalForGuest(); }
+		}
+		public double Total
         {
             get { return GetTotal(); }
         }
@@ -80,7 +84,7 @@ namespace KioskVerwaltung.BusinessObjects
             double total = 0;
             foreach (var saleProduct in saleProducts)
             {
-                if (!saleProduct.IsPaidByCreditCard && !saleProduct.IsPrivate) total += saleProduct.SellPrice;
+                if (!saleProduct.IsPaidByCreditCard && !saleProduct.IsPrivate && !saleProduct.IsForGuest) total += saleProduct.SellPrice;
             }
             return total;
         }
@@ -89,7 +93,7 @@ namespace KioskVerwaltung.BusinessObjects
             double total = 0;
             foreach (var saleProduct in saleProducts)
             {
-                if (saleProduct.IsPaidByCreditCard && !saleProduct.IsPrivate) total += saleProduct.SellPrice;
+                if (saleProduct.IsPaidByCreditCard && !saleProduct.IsPrivate && !saleProduct.IsForGuest) total += saleProduct.SellPrice;
             }
             return total;
         }
@@ -101,13 +105,22 @@ namespace KioskVerwaltung.BusinessObjects
                 if (saleProduct.IsPrivate) total += saleProduct.SellPrice;
             }
             return total;
-        }
-        private double GetTotal()
+		}
+		private double GetTotalForGuest()
+		{
+			double total = 0;
+			foreach (var saleProduct in saleProducts)
+			{
+				if (saleProduct.IsForGuest) total += saleProduct.SellPrice;
+			}
+			return total;
+		}
+		private double GetTotal()
         {
             double total = 0;
             foreach (var saleProduct in saleProducts)
             {
-                if (!saleProduct.IsPrivate) total += saleProduct.SellPrice;
+                if (!saleProduct.IsPrivate && !saleProduct.IsForGuest) total += saleProduct.SellPrice;
             }
             return total;
         }

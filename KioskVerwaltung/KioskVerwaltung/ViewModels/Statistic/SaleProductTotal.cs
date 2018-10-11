@@ -135,7 +135,21 @@ namespace KioskVerwaltung
         }
         private double totalPrivate;
 
-        public double Total
+		public double TotalForGuest
+		{
+			get
+			{
+				return totalForGuest;
+			}
+			set
+			{
+				totalForGuest = value;
+				OnPropertyChanged("TotalForGuest");
+			}
+		}
+		private double totalForGuest;
+
+		public double Total
         {
             get
             {
@@ -149,7 +163,7 @@ namespace KioskVerwaltung
         }
         private double total;
 
-        public TotalSaleProduct(int productId, string name, int count, double price, string deduction, double sellPrice, double totalCash, double totalCreditCard, double totalPrivate, double total)
+        public TotalSaleProduct(int productId, string name, int count, double price, string deduction, double sellPrice, double totalCash, double totalCreditCard, double totalPrivate, double totalForGuest, double total)
         {
             this.ProductId = productId;
             this.Name = name;
@@ -160,6 +174,7 @@ namespace KioskVerwaltung
             this.TotalCash = totalCash;
             this.TotalCreditCard = totalCreditCard;
             this.TotalPrivate = totalPrivate;
+			this.TotalForGuest = totalForGuest;
             this.Total = total;
         }
 
@@ -171,10 +186,11 @@ namespace KioskVerwaltung
             this.Price = saleProduct.Price;
             this.Deduction = saleProduct.Deduction;
             this.SellPrice = saleProduct.SellPrice;
-            this.TotalCash = ((!saleProduct.IsPaidByCreditCard && !saleProduct.IsPrivate) ? saleProduct.SellPrice : 0d);
+            this.TotalCash = ((!saleProduct.IsPaidByCreditCard && !saleProduct.IsPrivate && !saleProduct.IsForGuest) ? saleProduct.SellPrice : 0d);
             this.TotalCreditCard = ((saleProduct.IsPaidByCreditCard) ? saleProduct.SellPrice : 0d);
             this.TotalPrivate = ((saleProduct.IsPrivate) ? saleProduct.SellPrice : 0d);
-            this.Total = ((!saleProduct.IsPrivate) ? saleProduct.SellPrice : 0d);
+			this.TotalForGuest = ((saleProduct.IsForGuest) ? saleProduct.SellPrice : 0d);
+			this.Total = ((!saleProduct.IsPrivate && !saleProduct.IsForGuest) ? saleProduct.SellPrice : 0d);
         }
 
         public TotalSaleProduct()

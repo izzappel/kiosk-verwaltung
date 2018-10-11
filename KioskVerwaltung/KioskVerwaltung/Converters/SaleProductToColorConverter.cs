@@ -16,7 +16,8 @@ namespace KioskVerwaltung.Converters
             if (product != null)
             {
                 if (product.IsPrivate) { return new SolidColorBrush(Colors.Green); }
-                if (product.IsPaidByCreditCard) { return new SolidColorBrush(Colors.Blue); }
+				if (product.IsForGuest) { return new SolidColorBrush(Colors.Red); }
+				if (product.IsPaidByCreditCard) { return new SolidColorBrush(Colors.Blue); }
             }
             return new SolidColorBrush(Colors.Black); 
         }

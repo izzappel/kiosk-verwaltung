@@ -30,10 +30,12 @@ namespace KioskVerwaltung.Printing
             table.Columns.Add(new TableColumn() { Width = GridLength.Auto });
             table.Columns.Add(new TableColumn() { Width = new GridLength(80) });
             table.Columns.Add(new TableColumn() { Width = new GridLength(80) });
-            table.Columns.Add(new TableColumn() { Width = new GridLength(100) });
-            table.Columns.Add(new TableColumn() { Width = new GridLength(100) });
-            table.Columns.Add(new TableColumn() { Width = new GridLength(100) });
-            table.Columns.Add(new TableColumn() { Width = new GridLength(100) });
+            table.Columns.Add(new TableColumn() { Width = new GridLength(80) });
+            table.Columns.Add(new TableColumn() { Width = new GridLength(80) });
+            table.Columns.Add(new TableColumn() { Width = new GridLength(80) });
+            table.Columns.Add(new TableColumn() { Width = new GridLength(60) });
+            table.Columns.Add(new TableColumn() { Width = new GridLength(60) });
+			table.FontSize = 11;
             var tableRowGroup = new TableRowGroup();
 
             var row = new TableRow();
@@ -45,6 +47,7 @@ namespace KioskVerwaltung.Printing
             row.Cells.Add(new TableCell(new Paragraph(new Run("Kreditk.") { FontWeight = FontWeights.Bold, Foreground = new SolidColorBrush(Colors.Blue) }) { TextAlignment = System.Windows.TextAlignment.Right }));
             row.Cells.Add(new TableCell(new Paragraph(new Run("Total") { FontWeight = FontWeights.Bold }) { TextAlignment = System.Windows.TextAlignment.Right }));
             row.Cells.Add(new TableCell(new Paragraph(new Run("Privat") { FontWeight = FontWeights.Bold, Foreground = new SolidColorBrush(Colors.Green) }) { TextAlignment = System.Windows.TextAlignment.Right }));
+            row.Cells.Add(new TableCell(new Paragraph(new Run("Für Gäste") { FontWeight = FontWeights.Bold, Foreground = new SolidColorBrush(Colors.Red) }) { TextAlignment = System.Windows.TextAlignment.Right }));
             tableRowGroup.Rows.Add(row);
 
             foreach (var saleProduct in monthViewModel.TotalSaleProducts)
@@ -58,18 +61,20 @@ namespace KioskVerwaltung.Printing
                 row.Cells.Add(new TableCell(new Paragraph(new Run(string.Format("{0:0.00} CHF", saleProduct.TotalCreditCard)) { Foreground = new SolidColorBrush(Colors.Blue) }) { TextAlignment = System.Windows.TextAlignment.Right }));
                 row.Cells.Add(new TableCell(new Paragraph(new Run(string.Format("{0:0.00} CHF", saleProduct.Total)) { FontWeight = FontWeights.Bold }) { TextAlignment = System.Windows.TextAlignment.Right }));
                 row.Cells.Add(new TableCell(new Paragraph(new Run(string.Format("{0:0.00} CHF", saleProduct.TotalPrivate)) { Foreground = new SolidColorBrush(Colors.Green) }) { TextAlignment = System.Windows.TextAlignment.Right }));
+                row.Cells.Add(new TableCell(new Paragraph(new Run(string.Format("{0:0.00} CHF", saleProduct.TotalForGuest)) { Foreground = new SolidColorBrush(Colors.Red) }) { TextAlignment = System.Windows.TextAlignment.Right }));
                 tableRowGroup.Rows.Add(row);
             }
 
             row = new TableRow();
-            row.Cells.Add(new TableCell(new BlockUIContainer(new Separator() { HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch })) { ColumnSpan = 8 });
+            row.Cells.Add(new TableCell(new BlockUIContainer(new Separator() { HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch })) { ColumnSpan = 9 });
             tableRowGroup.Rows.Add(row);
 
             table.RowGroups.Add(tableRowGroup);
             Content.Blocks.Add(table);
 
             table = new Table();
-            table.Columns.Add(new TableColumn() { Width = new GridLength(150) });
+			table.FontSize = 11;
+			table.Columns.Add(new TableColumn() { Width = new GridLength(150) });
             table.Columns.Add(new TableColumn() { Width = new GridLength(150) });
             table.Columns.Add(new TableColumn() { Width = GridLength.Auto });
             table.Columns.Add(new TableColumn() { Width = new GridLength(150) });
@@ -83,9 +88,9 @@ namespace KioskVerwaltung.Printing
             tableRowGroup.Rows.Add(row);
 
             row = new TableRow();
-            row.Cells.Add(new TableCell());
-            row.Cells.Add(new TableCell());
-            row.Cells.Add(new TableCell(new Paragraph(new Run("Kreditkarte:"))));
+			row.Cells.Add(new TableCell(new Paragraph(new Run("Für Gäste:"))));
+			row.Cells.Add(new TableCell(new Paragraph(new Run(string.Format("{0:0.00} CHF", monthViewModel.TotalForGuest)))));
+			row.Cells.Add(new TableCell(new Paragraph(new Run("Kreditkarte:"))));
             row.Cells.Add(new TableCell(new Paragraph(new Run(string.Format("{0:0.00} CHF", monthViewModel.TotalCreditCard))) { TextAlignment = System.Windows.TextAlignment.Right }));
             tableRowGroup.Rows.Add(row);
 

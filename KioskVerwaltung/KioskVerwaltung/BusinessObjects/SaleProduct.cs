@@ -92,7 +92,21 @@ namespace KioskVerwaltung.BusinessObjects
         }
         private bool isPrivate;
 
-        public string Deduction
+		public bool IsForGuest
+		{
+			get
+			{
+				return isForGuest;
+			}
+			set
+			{
+				isForGuest = value;
+				OnPropertyChanged("IsForGuest");
+			}
+		}
+		private bool isForGuest;
+
+		public string Deduction
         {
             get
             {
@@ -120,7 +134,7 @@ namespace KioskVerwaltung.BusinessObjects
         }
         private double sellPrice;
 
-        public SaleProduct(int id, int productId, string name, double price, bool isPaidByCreditCard, bool isPrivate, string deduction, double sellPrice) 
+        public SaleProduct(int id, int productId, string name, double price, bool isPaidByCreditCard, bool isPrivate, bool isForGuest, string deduction, double sellPrice) 
         {
             this.Id = id;
             this.ProductId = productId;
@@ -128,6 +142,7 @@ namespace KioskVerwaltung.BusinessObjects
             this.Price = price;
             this.IsPaidByCreditCard = isPaidByCreditCard;
             this.IsPrivate = isPrivate;
+			this.IsForGuest = isForGuest;
             this.Deduction = deduction;
             this.SellPrice = sellPrice;
         }
