@@ -68,8 +68,12 @@ namespace KioskVerwaltung
         public double TotalPrivate
         {
             get { return GetTotalPrivate(); }
-        }
-        public double Total
+		}
+		public double TotalForGuest
+		{
+			get { return GetTotalForGuest(); }
+		}
+		public double Total
         {
             get { return GetTotal(); }
         }
@@ -121,7 +125,8 @@ namespace KioskVerwaltung
             OnPropertyChanged("TotalCreditCard");
             OnPropertyChanged("TotalCash");
             OnPropertyChanged("TotalPrivate");
-            OnPropertyChanged("Total");
+			OnPropertyChanged("TotalForGuest");
+			OnPropertyChanged("Total");
             OnPropertyChanged("ToDay");
             OnPropertyChanged("FromDay");
         }
@@ -174,8 +179,17 @@ namespace KioskVerwaltung
                 total += sale.TotalPrivate;
             }
             return total;
-        }
-        private double GetTotal()
+		}
+		private double GetTotalForGuest()
+		{
+			double total = 0;
+			foreach (var sale in totalSaleProducts)
+			{
+				total += sale.TotalForGuest;
+			}
+			return total;
+		}
+		private double GetTotal()
         {
             double total = 0;
             foreach (var sale in totalSaleProducts)
@@ -192,7 +206,8 @@ namespace KioskVerwaltung
             OnPropertyChanged("TotalCreditCard");
             OnPropertyChanged("TotalCash");
             OnPropertyChanged("TotalPrivate");
-            OnPropertyChanged("Total");
+			OnPropertyChanged("TotalForGuest");
+			OnPropertyChanged("Total");
             OnPropertyChanged("ToDay");
             OnPropertyChanged("FromDay");
         }

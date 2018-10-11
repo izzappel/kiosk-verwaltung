@@ -70,7 +70,7 @@ namespace KioskVerwaltung
 
             for (int i = 0; i < consignment.NumberOfContent; i++)
             {
-                SaleProduct saleProduct = new SaleProduct(0, product.Id, product.Name, price, false, false, "GRATIS", 0);
+                SaleProduct saleProduct = new SaleProduct(0, product.Id, product.Name, price, false, false, false, "GRATIS", 0);
                 dataAccess.AddSaleProduct(saleToday.Id, saleProduct);
             }
 

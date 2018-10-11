@@ -42,8 +42,13 @@ namespace KioskVerwaltung
         {
             viewModel.SetIsBasketPrivate(!viewModel.IsBasketPrivate);
             InvokersListBox.Focus();
-        }
-        private void RemoveSaleProduct(object sender, RoutedEventArgs e)
+		}
+		private void ForGuestPublicSale(object sender, RoutedEventArgs e)
+		{
+			viewModel.SetIsBasketForGuest(!viewModel.IsBasketForGuest);
+			InvokersListBox.Focus();
+		}
+		private void RemoveSaleProduct(object sender, RoutedEventArgs e)
         {
             Button button = e.Source as Button;
             BasketItem basketItem = button.CommandParameter as BasketItem;
@@ -149,14 +154,28 @@ namespace KioskVerwaltung
 
             viewModel.SetIsPrivateToSaleProduct(true, saleProduct);
         }
-        private void SetPublicSale(object sender, RoutedEventArgs e)
+		private void SetPublicSale(object sender, RoutedEventArgs e)
         {
             MenuItem menuItem = e.Source as MenuItem;
             SaleProduct saleProduct = menuItem.CommandParameter as SaleProduct;
 
             viewModel.SetIsPrivateToSaleProduct(false, saleProduct);
-        }
-        private void SetCreditCardSale(object sender, RoutedEventArgs e)
+		}
+		private void SetGuestSale(object sender, RoutedEventArgs e)
+		{
+			MenuItem menuItem = e.Source as MenuItem;
+			SaleProduct saleProduct = menuItem.CommandParameter as SaleProduct;
+
+			viewModel.SetIsForGuestToSaleProduct(true, saleProduct);
+		}
+		private void SetSellerSale(object sender, RoutedEventArgs e)
+		{
+			MenuItem menuItem = e.Source as MenuItem;
+			SaleProduct saleProduct = menuItem.CommandParameter as SaleProduct;
+
+			viewModel.SetIsForGuestToSaleProduct(false, saleProduct);
+		}
+		private void SetCreditCardSale(object sender, RoutedEventArgs e)
         {
             MenuItem menuItem = e.Source as MenuItem;
             SaleProduct saleProduct = menuItem.CommandParameter as SaleProduct;

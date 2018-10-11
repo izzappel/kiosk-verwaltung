@@ -135,7 +135,7 @@ namespace KioskVerwaltung.DataAccess
 
                 foreach (var saleProduct in row.GetSaleProductRows())
                 {
-                    saleProducts.Add(new SaleProduct(saleProduct.Id, saleProduct.ProductId, saleProduct.Name, saleProduct.Price, saleProduct.IsPaidByCreditCard, saleProduct.IsPrivate, saleProduct.Deduction, saleProduct.SellPrice));
+                    saleProducts.Add(new SaleProduct(saleProduct.Id, saleProduct.ProductId, saleProduct.Name, saleProduct.Price, saleProduct.IsPaidByCreditCard, saleProduct.IsPrivate, saleProduct.IsForGuest, saleProduct.Deduction, saleProduct.SellPrice));
                 }
                 sales.Add(new Sale(row.Id, row.Date, saleProducts));
             }
@@ -374,7 +374,7 @@ namespace KioskVerwaltung.DataAccess
 
                     foreach (var saleProduct in row.GetSaleProductRows())
                     {
-                        saleProducts.Add(new SaleProduct(saleProduct.Id, saleProduct.ProductId, saleProduct.Name, saleProduct.Price, saleProduct.IsPaidByCreditCard, saleProduct.IsPrivate, saleProduct.Deduction, saleProduct.SellPrice));
+                        saleProducts.Add(new SaleProduct(saleProduct.Id, saleProduct.ProductId, saleProduct.Name, saleProduct.Price, saleProduct.IsPaidByCreditCard, saleProduct.IsPrivate, saleProduct.IsForGuest, saleProduct.Deduction, saleProduct.SellPrice));
                     }
                     sales.Add(new Sale(row.Id, row.Date, saleProducts));
                 }
@@ -427,6 +427,7 @@ namespace KioskVerwaltung.DataAccess
             row.Price = saleProduct.Price;
             row.IsPaidByCreditCard = saleProduct.IsPaidByCreditCard;
             row.IsPrivate = saleProduct.IsPrivate;
+			row.IsForGuest = saleProduct.IsForGuest;
             row.Deduction = saleProduct.Deduction;
             row.SellPrice = saleProduct.SellPrice;
             row.SaleId = saleId;
@@ -459,6 +460,7 @@ namespace KioskVerwaltung.DataAccess
             oldSaleProduct.Price = saleProduct.Price;
             oldSaleProduct.IsPaidByCreditCard = saleProduct.IsPaidByCreditCard;
             oldSaleProduct.IsPrivate = saleProduct.IsPrivate;
+			oldSaleProduct.IsForGuest = saleProduct.IsForGuest;
             oldSaleProduct.Deduction = saleProduct.Deduction;
             oldSaleProduct.SellPrice = saleProduct.SellPrice;
 
@@ -468,6 +470,7 @@ namespace KioskVerwaltung.DataAccess
             row.Price = saleProduct.Price;
             row.IsPaidByCreditCard = saleProduct.IsPaidByCreditCard;
             row.IsPrivate = saleProduct.IsPrivate;
+			row.IsForGuest = saleProduct.IsForGuest;
             row.Deduction = saleProduct.Deduction;
             row.SellPrice = saleProduct.SellPrice;
 

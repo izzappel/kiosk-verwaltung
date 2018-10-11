@@ -30,7 +30,8 @@ namespace KioskVerwaltung.Printing
             Content.Blocks.Add(new Paragraph(new Run(string.Format("Verkauf vom {0:dd.MM.yyyy}", DateTime.Now))) { FontWeight = FontWeights.Bold });
 
             var table = new Table();
-            var tableRowGroup = new TableRowGroup();
+			table.FontSize = 11;
+			var tableRowGroup = new TableRowGroup();
 
             foreach (var saleProduct in saleProducts)
             {
@@ -49,8 +50,13 @@ namespace KioskVerwaltung.Printing
                 {
                     tableRow.Cells.Add(new TableCell(new BlockUIContainer(new Image() { Source = new BitmapImage(new Uri("pack://application:,,/KioskVerwaltung;component/Icons/private.png")), Width = 25, Height = 25 })));
                     tableRow.Foreground = new SolidColorBrush(Colors.Green);
-                }
-                else
+				}
+				else if (saleProduct.IsForGuest)
+				{
+					tableRow.Cells.Add(new TableCell(new BlockUIContainer(new Image() { Source = new BitmapImage(new Uri("pack://application:,,/KioskVerwaltung;component/Icons/for_guest.png")), Width = 25, Height = 25 })));
+					tableRow.Foreground = new SolidColorBrush(Colors.Red);
+				}
+				else
                 {
                     tableRow.Cells.Add(new TableCell());
                 }
@@ -64,6 +70,7 @@ namespace KioskVerwaltung.Printing
             Content.Blocks.Add(table);
 
             table = new Table();
+			table.FontSize = 11;
             tableRowGroup = new TableRowGroup();
 
             var row = new TableRow();
@@ -74,9 +81,9 @@ namespace KioskVerwaltung.Printing
             tableRowGroup.Rows.Add(row);
 
             row = new TableRow();
-            row.Cells.Add(new TableCell());
-            row.Cells.Add(new TableCell());
-            row.Cells.Add(new TableCell(new Paragraph(new Run("Kreditkarte:"))));
+			row.Cells.Add(new TableCell(new Paragraph(new Run("Für Gäste:"))));
+			row.Cells.Add(new TableCell(new Paragraph(new Run(string.Format("{0:0.00} CHF", sale.TotalForGuest)))));
+			row.Cells.Add(new TableCell(new Paragraph(new Run("Kreditkarte:"))));
             row.Cells.Add(new TableCell(new Paragraph(new Run(string.Format("{0:0.00} CHF", sale.TotalCreditCard))) { TextAlignment = System.Windows.TextAlignment.Right }));
             tableRowGroup.Rows.Add(row);
 

@@ -51,8 +51,12 @@ namespace KioskVerwaltung
         public bool IsBasketPrivate
         {
             get { return isBasketPrivate; }
-        }
-        public double BasketTotal
+		}
+		public bool IsBasketForGuest
+		{
+			get { return isBasketForGuest; }
+		}
+		public double BasketTotal
         {
             get { return GetBasketTotal(); }
         }
@@ -61,8 +65,9 @@ namespace KioskVerwaltung
         private ObservableCollection<Sale> sales;
         private bool isBasketPaidByCreditCard;
         private bool isBasketPrivate;
+		private bool isBasketForGuest;
 
-        private ObservableCollection<BasketItem> basketItems;
+		private ObservableCollection<BasketItem> basketItems;
 
         private DataAccess.DataAccess dataAccess;
         public SaleViewModel()
@@ -146,10 +151,12 @@ namespace KioskVerwaltung
 
             isBasketPaidByCreditCard = false;
             isBasketPrivate = false;
+			isBasketForGuest = false;
 
-            OnPropertyChanged("IsBasketPaidByCreditCard");
+			OnPropertyChanged("IsBasketPaidByCreditCard");
             OnPropertyChanged("IsBasketPrivate");
-            OnPropertyChanged("BasketTotal");
+			OnPropertyChanged("IsBasketForGuest");
+			OnPropertyChanged("BasketTotal");
             OnPropertyChanged("BasketItems");
         }
 
@@ -180,7 +187,7 @@ namespace KioskVerwaltung
                     {
                         price = consignment.Price;
                     }
-                    SaleProduct saleProduct = new SaleProduct(0, product.Id, product.Name, price, isBasketPaidByCreditCard, isBasketPrivate, "", price);
+                    SaleProduct saleProduct = new SaleProduct(0, product.Id, product.Name, price, isBasketPaidByCreditCard, isBasketPrivate, isBasketForGuest, "", price);
 
 
                     BasketItem basketItem = new BasketItem(product, consignment, saleProduct);
@@ -252,13 +259,16 @@ namespace KioskVerwaltung
                 SaleProduct saleProduct = basketItem.SaleProduct;
                 saleProduct.IsPaidByCreditCard = isBasketPaidByCreditCard;
                 saleProduct.IsPrivate = false;
+				saleProduct.IsForGuest = false;
             }
             this.isBasketPaidByCreditCard = isBasketPaidByCreditCard;
             this.isBasketPrivate = false;
+			this.isBasketForGuest = false;
 
-            OnPropertyChanged("IsBasketPaidByCreditCard");
+			OnPropertyChanged("IsBasketPaidByCreditCard");
             OnPropertyChanged("IsBasketPrivate");
-        }
+			OnPropertyChanged("IsBasketForGuest");
+		}
         public void SetIsBasketPrivate(bool isBasketPrivate)
         {
             foreach (var basketItem in basketItems)
@@ -266,18 +276,39 @@ namespace KioskVerwaltung
                 SaleProduct saleProduct = basketItem.SaleProduct;
                 saleProduct.IsPrivate = isBasketPrivate;
                 saleProduct.IsPaidByCreditCard = false;
-            }
+				saleProduct.IsForGuest = false;
+			}
             this.isBasketPrivate = isBasketPrivate;
             this.isBasketPaidByCreditCard = false;
+			this.isBasketForGuest = false;
 
             OnPropertyChanged("IsBasketPaidByCreditCard");
             OnPropertyChanged("IsBasketPrivate");
-        }
+			OnPropertyChanged("IsBasketForGuest");
+		}
+		public void SetIsBasketForGuest(bool isBasketForGuest)
+		{
+			foreach (var basketItem in basketItems)
+			{
+				SaleProduct saleProduct = basketItem.SaleProduct;
+				saleProduct.IsForGuest = isBasketForGuest;
+				saleProduct.IsPaidByCreditCard = false;
+				saleProduct.IsPrivate = false;
+			}
+			this.isBasketForGuest = isBasketForGuest;
+			this.isBasketPaidByCreditCard = false;
+			this.isBasketPrivate = false;
 
-        public void SetIsPaidByCreditCardToSaleProduct(bool isPaidByCreditCard, SaleProduct saleProduct)
+			OnPropertyChanged("IsBasketPaidByCreditCard");
+			OnPropertyChanged("IsBasketPrivate");
+			OnPropertyChanged("IsBasketForGuest");
+		}
+
+		public void SetIsPaidByCreditCardToSaleProduct(bool isPaidByCreditCard, SaleProduct saleProduct)
         {
             saleProduct.IsPaidByCreditCard = isPaidByCreditCard;
             saleProduct.IsPrivate = (isPaidByCreditCard == true) ? false : saleProduct.IsPrivate;
+			saleProduct.IsForGuest = false;
             dataAccess.EditSaleProduct(saleToday.Id, saleProduct);
 
             OnPropertyChanged("Sales");
@@ -287,13 +318,24 @@ namespace KioskVerwaltung
         {
             saleProduct.IsPrivate = isPrivate;
             saleProduct.IsPaidByCreditCard = (isPrivate == true) ? false : saleProduct.IsPrivate;
-            dataAccess.EditSaleProduct(saleToday.Id, saleProduct);
+			saleProduct.IsForGuest = false;
+			dataAccess.EditSaleProduct(saleToday.Id, saleProduct);
 
             OnPropertyChanged("Sales");
             OnPropertyChanged("SaleToday");
-        }
+		}
+		public void SetIsForGuestToSaleProduct(bool isForGuest, SaleProduct saleProduct)
+		{
+			saleProduct.IsForGuest = isForGuest;
+			saleProduct.IsPaidByCreditCard = false;
+			saleProduct.IsPrivate = false;
+			dataAccess.EditSaleProduct(saleToday.Id, saleProduct);
 
-        public void DeleteSaleProduct(SaleProduct saleProduct)
+			OnPropertyChanged("Sales");
+			OnPropertyChanged("SaleToday");
+		}
+
+		public void DeleteSaleProduct(SaleProduct saleProduct)
         {
             dataAccess.RemoveSaleProduct(saleToday.Id, saleProduct.Id);
 
